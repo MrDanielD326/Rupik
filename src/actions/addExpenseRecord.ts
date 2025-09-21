@@ -3,20 +3,9 @@
 import { auth } from '@clerk/nextjs/server';
 import { db } from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { iRecordData, iRecordResult } from '@/types/Record';
 
-interface RecordData {
-    text: string;
-    amount: number;
-    category: string;
-    date: string; // Added date field
-}
-
-interface RecordResult {
-    data?: RecordData;
-    error?: string;
-}
-
-async function addExpenseRecord(formData: FormData): Promise<RecordResult> {
+async function addExpenseRecord(formData: FormData): Promise<iRecordResult> {
     const textValue = formData.get('text');
     const amountValue = formData.get('amount');
     const categoryValue = formData.get('category');
@@ -63,7 +52,7 @@ async function addExpenseRecord(formData: FormData): Promise<RecordResult> {
             }
         });
 
-        const recordData: RecordData = {
+        const recordData: iRecordData = {
             text: createdRecord.text,
             amount: createdRecord.amount,
             category: createdRecord.category,

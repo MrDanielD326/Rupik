@@ -1,29 +1,22 @@
 'use client';
 import { useState } from 'react';
-import { Record } from '@/types/Record';
+import { iRecord } from '@/types/Record';
 import deleteRecord from '@/actions/deleteRecord';
 
 // Helper function to get category emoji
 const getCategoryEmoji = (category: string) => {
     switch (category) {
-        case 'Food':
-            return '🍔';
-        case 'Transportation':
-            return '🚗';
-        case 'Shopping':
-            return '🛒';
-        case 'Entertainment':
-            return '🎬';
-        case 'Bills':
-            return '💡';
-        case 'Healthcare':
-            return '🏥';
-        default:
-            return '📦';
+        case 'Food': return '🍔';
+        case 'Transportation': return '🚗';
+        case 'Shopping': return '🛒';
+        case 'Entertainment': return '🎬';
+        case 'Bills': return '💡';
+        case 'Healthcare': return '🏥';
+        default: return '📦';
     }
 };
 
-const RecordItem = ({ record }: { record: Record }) => {
+const RecordItem = ({ record }: { record: iRecord }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleDeleteRecord = async (recordId: string) => {

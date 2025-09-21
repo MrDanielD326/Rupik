@@ -93,10 +93,7 @@ const AddRecord = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-emerald-50/50 to-green-50/50 dark:from-emerald-900/10 dark:to-green-900/10 rounded-xl border border-emerald-100/50 dark:border-emerald-800/50'>
                     {/* Expense Description */}
                     <div className='space-y-1.5'>
-                        <label
-                            htmlFor='text'
-                            className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'
-                        >
+                        <label htmlFor='text' className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'>
                             <span className='w-1.5 h-1.5 bg-emerald-500 rounded-full'></span>
                             Expense Description
                         </label>
@@ -135,10 +132,7 @@ const AddRecord = () => {
 
                     {/* Expense Date */}
                     <div className='space-y-1.5'>
-                        <label
-                            htmlFor='date'
-                            className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'
-                        >
+                        <label htmlFor='date' className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'>
                             <span className='w-1.5 h-1.5 bg-green-500 rounded-full'></span>
                             Expense Date
                         </label>
@@ -157,10 +151,7 @@ const AddRecord = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 p-3 sm:p-4 bg-gradient-to-r from-green-50/50 to-emerald-50/50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-xl border border-green-100/50 dark:border-green-800/50'>
                     {/* Category Selection */}
                     <div className='space-y-1.5'>
-                        <label
-                            htmlFor='category'
-                            className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'
-                        >
+                        <label htmlFor='category' className='flex items-center gap-2 text-xs font-semibold text-gray-700 dark:text-gray-300 tracking-wide'>
                             <span className='w-1.5 h-1.5 bg-green-500 rounded-full'></span>
                             Category
                             <span className='text-xs text-gray-400 dark:text-gray-500 ml-2 font-normal hidden sm:inline'>
@@ -175,50 +166,28 @@ const AddRecord = () => {
                             className='w-full px-3 py-2.5 bg-white/70 dark:bg-gray-800/70 border-2 border-gray-200/80 dark:border-gray-600/80 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:bg-white dark:focus:bg-gray-700/90 focus:border-emerald-400 dark:focus:border-emerald-400 text-gray-900 dark:text-gray-100 cursor-pointer text-sm shadow-sm hover:shadow-md transition-all duration-200'
                             required
                         >
-                            <option
-                                value=''
-                                disabled
-                                className='text-gray-400 dark:text-gray-500'
-                            >
+                            <option value='' disabled className='text-gray-400 dark:text-gray-500'>
                                 Select category...
                             </option>
                             <option value='Food' className='text-gray-900 dark:text-gray-100'>
                                 🍔 Food & Dining
                             </option>
-                            <option
-                                value='Transportation'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Transportation' className='text-gray-900 dark:text-gray-100'>
                                 🚗 Transportation
                             </option>
-                            <option
-                                value='Shopping'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Shopping' className='text-gray-900 dark:text-gray-100'>
                                 🛒 Shopping
                             </option>
-                            <option
-                                value='Entertainment'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Entertainment' className='text-gray-900 dark:text-gray-100'>
                                 🎬 Entertainment
                             </option>
-                            <option
-                                value='Bills'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Bills' className='text-gray-900 dark:text-gray-100'>
                                 💡 Bills & Utilities
                             </option>
-                            <option
-                                value='Healthcare'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Healthcare' className='text-gray-900 dark:text-gray-100'>
                                 🏥 Healthcare
                             </option>
-                            <option
-                                value='Other'
-                                className='text-gray-900 dark:text-gray-100'
-                            >
+                            <option value='Other' className='text-gray-900 dark:text-gray-100'>
                                 📦 Other
                             </option>
                         </select>

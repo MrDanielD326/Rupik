@@ -1,12 +1,5 @@
+import { RawInsight } from '@/types/ais';
 import OpenAI from 'openai';
-
-interface RawInsight {
-    type?: string;
-    title?: string;
-    message?: string;
-    action?: string;
-    confidence?: number;
-}
 
 const openai = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
@@ -70,8 +63,7 @@ export async function generateExpenseInsights(expenses: ExpenseRecord[]): Promis
             messages: [
                 {
                     role: 'system',
-                    content:
-                        'You are a financial advisor AI that analyzes spending patterns and provides actionable insights. Always respond with valid JSON only.'
+                    content: 'You are a financial advisor AI that analyzes spending patterns and provides actionable insights. Always respond with valid JSON only.'
                 },
                 {
                     role: 'user',
@@ -90,13 +82,9 @@ export async function generateExpenseInsights(expenses: ExpenseRecord[]): Promis
         // Clean the response by removing markdown code blocks if present
         let cleanedResponse = response.trim();
         if (cleanedResponse.startsWith('```json')) {
-            cleanedResponse = cleanedResponse
-                .replace(/^```json\s*/, '')
-                .replace(/\s*```$/, '');
+            cleanedResponse = cleanedResponse.replace(/^```json\s*/, '').replace(/\s*```$/, '');
         } else if (cleanedResponse.startsWith('```')) {
-            cleanedResponse = cleanedResponse
-                .replace(/^```\s*/, '')
-                .replace(/\s*```$/, '');
+            cleanedResponse = cleanedResponse.replace(/^```\s*/, '').replace(/\s*```$/, '');
         }
 
         // Parse AI response
@@ -170,10 +158,7 @@ export async function categorizeExpense(description: string): Promise<string> {
     }
 }
 
-export async function generateAIAnswer(
-    question: string,
-    context: ExpenseRecord[]
-): Promise<string> {
+export async function generateAIAnswer(question: string, context: ExpenseRecord[]): Promise<string> {
     try {
         const expensesSummary = context.map((expense) => ({
             amount: expense.amount,

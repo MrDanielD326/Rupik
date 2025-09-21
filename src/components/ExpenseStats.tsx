@@ -85,9 +85,7 @@ const ExpenseStats = async () => {
                                         Lowest
                                     </h4>
                                     <p className='text-lg font-bold text-green-600 dark:text-green-300'>
-                                        {worstExpense !== undefined
-                                            ? `$${worstExpense}`
-                                            : 'No data'}
+                                        {worstExpense !== undefined ? `$${worstExpense}` : 'No data'}
                                     </p>
                                 </div>
                             </div>

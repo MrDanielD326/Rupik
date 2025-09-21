@@ -3,27 +3,13 @@
 import { useState, useEffect } from 'react';
 import { getAIInsights } from '@/actions/getAIInsights';
 import { generateInsightAnswer } from '@/actions/generateInsightAnswer';
-
-interface InsightData {
-  id: string;
-  type: 'warning' | 'info' | 'success' | 'tip';
-  title: string;
-  message: string;
-  action?: string;
-  confidence?: number;
-}
-
-interface AIAnswer {
-  insightId: string;
-  answer: string;
-  isLoading: boolean;
-}
+import { iAIAnswer, iInsightData } from '@/types/ais';
 
 const AIInsights = () => {
-  const [insights, setInsights] = useState<InsightData[]>([]);
+  const [insights, setInsights] = useState<iInsightData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const [aiAnswers, setAiAnswers] = useState<AIAnswer[]>([]);
+  const [aiAnswers, setAiAnswers] = useState<iAIAnswer[]>([]);
 
   const loadInsights = async () => {
     setIsLoading(true);
@@ -48,7 +34,7 @@ const AIInsights = () => {
     }
   };
 
-  const handleActionClick = async (insight: InsightData) => {
+  const handleActionClick = async (insight: iInsightData) => {
     if (!insight.action) return;
 
     // Check if answer is already loading or exists
@@ -76,25 +62,18 @@ const AIInsights = () => {
       // Use server action to generate AI answer
       const answer = await generateInsightAnswer(question);
 
-      setAiAnswers((prev) =>
-        prev.map((a) =>
-          a.insightId === insight.id ? { ...a, answer, isLoading: false } : a
-        )
-      );
+      setAiAnswers((prev) => prev.map((a) => a.insightId === insight.id ? { ...a, answer, isLoading: false } : a));
     } catch (error) {
       console.error('❌ Failed to generate AI answer:', error);
       setAiAnswers((prev) =>
         prev.map((a) =>
-          a.insightId === insight.id
-            ? {
-              ...a,
-              answer:
-                'Sorry, I was unable to generate a detailed answer. Please try again.',
-              isLoading: false
-            }
-            : a
+          a.insightId === insight.id ? {
+            ...a,
+            answer: 'Sorry, I was unable to generate a detailed answer. Please try again.',
+            isLoading: false
+          } : a
         )
-      );
+      )
     }
   };
 
@@ -104,46 +83,31 @@ const AIInsights = () => {
 
   const getInsightIcon = (type: string) => {
     switch (type) {
-      case 'warning':
-        return '⚠️';
-      case 'success':
-        return '✅';
-      case 'tip':
-        return '💡';
-      case 'info':
-        return 'ℹ️';
-      default:
-        return '🤖';
+      case 'warning': return '⚠️';
+      case 'success': return '✅';
+      case 'tip': return '💡';
+      case 'info': return 'ℹ️';
+      default: return '🤖';
     }
   };
 
   const getInsightColors = (type: string) => {
     switch (type) {
-      case 'warning':
-        return 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-900/20';
-      case 'success':
-        return 'border-l-green-500 bg-green-50 dark:bg-green-900/20';
-      case 'tip':
-        return 'border-l-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
-      case 'info':
-        return 'border-l-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
-      default:
-        return 'border-l-gray-500 bg-gray-50 dark:bg-gray-800/50';
+      case 'warning': return 'border-l-yellow-500 bg-yellow-50 dark:bg-yellow-900/20';
+      case 'success': return 'border-l-green-500 bg-green-50 dark:bg-green-900/20';
+      case 'tip': return 'border-l-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
+      case 'info': return 'border-l-emerald-500 bg-emerald-50 dark:bg-emerald-900/20';
+      default: return 'border-l-gray-500 bg-gray-50 dark:bg-gray-800/50';
     }
   };
 
   const getButtonColors = (type: string) => {
     switch (type) {
-      case 'warning':
-        return 'text-yellow-700 dark:text-yellow-300 hover:text-yellow-800 dark:hover:text-yellow-200';
-      case 'success':
-        return 'text-green-700 dark:text-green-300 hover:text-green-800 dark:hover:text-green-200';
-      case 'tip':
-        return 'text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200';
-      case 'info':
-        return 'text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200';
-      default:
-        return 'text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200';
+      case 'warning': return 'text-yellow-700 dark:text-yellow-300 hover:text-yellow-800 dark:hover:text-yellow-200';
+      case 'success': return 'text-green-700 dark:text-green-300 hover:text-green-800 dark:hover:text-green-200';
+      case 'tip': return 'text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200';
+      case 'info': return 'text-emerald-700 dark:text-emerald-300 hover:text-emerald-800 dark:hover:text-emerald-200';
+      default: return 'text-gray-700 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-200';
     }
   };
 
@@ -252,16 +216,12 @@ const AIInsights = () => {
 
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4'>
         {insights.map((insight) => {
-          const currentAnswer = aiAnswers.find(
-            (a) => a.insightId === insight.id
-          );
+          const currentAnswer = aiAnswers.find((a) => a.insightId === insight.id);
 
           return (
             <div
               key={insight.id}
-              className={`relative overflow-hidden rounded-xl p-3 sm:p-4 border-l-4 hover:shadow-lg transition-all duration-200 ${getInsightColors(
-                insight.type
-              )}`}
+              className={`relative overflow-hidden rounded-xl p-3 sm:p-4 border-l-4 hover:shadow-lg transition-all duration-200 ${getInsightColors(insight.type)}`}
             >
               <div className='flex items-start justify-between'>
                 <div className='flex-1'>
@@ -298,10 +258,7 @@ const AIInsights = () => {
                     <div className='text-left'>
                       <span
                         onClick={() => handleActionClick(insight)}
-                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium text-xs cursor-pointer transition-all duration-200 ${getButtonColors(
-                          insight.type
-                        )} hover:bg-white/50 dark:hover:bg-gray-700/50 ${currentAnswer ? 'bg-white/50 dark:bg-gray-700/50' : ''
-                          }`}
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg font-medium text-xs cursor-pointer transition-all duration-200 ${getButtonColors(insight.type)} hover:bg-white/50 dark:hover:bg-gray-700/50 ${currentAnswer ? 'bg-white/50 dark:bg-gray-700/50' : ''}`}
                       >
                         <span>{insight.action}</span>
                         {currentAnswer?.isLoading ? (

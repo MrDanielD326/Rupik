@@ -2,9 +2,9 @@
 
 import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
-import { Record } from '@/types/Record';
+import { iRecord } from '@/types/Record';
 
-async function getRecords(): Promise<{ records?: Record[]; error?: string }> {
+async function getRecords(): Promise<{ records?: iRecord[]; error?: string }> {
     const { userId } = await auth();
 
     if (!userId) {

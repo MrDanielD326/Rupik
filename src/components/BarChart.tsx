@@ -4,18 +4,12 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { useTheme } from '@/context/ThemeContext';
 import { useState, useEffect } from 'react';
+import { iChartRecord } from '@/types/Record';
 
 // Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-// Define the type for a record
-interface Record {
-    date: string; // ISO date string
-    amount: number; // Amount spent
-    category: string; // Expense category
-}
-
-const BarChart = ({ records }: { records: Record[] }) => {
+const BarChart = ({ records }: { records: iChartRecord[] }) => {
     const { theme } = useTheme();
     const isDark = theme === 'dark';
     const [windowWidth, setWindowWidth] = useState(1024); // Default to desktop width
@@ -36,11 +30,8 @@ const BarChart = ({ records }: { records: Record[] }) => {
     const isMobile = windowWidth < 640;
 
     // Aggregate expenses by date
-    const aggregateByDate = (records: Record[]) => {
-        const dateMap = new Map<
-            string,
-            { total: number; categories: string[]; originalDate: string }
-        >();
+    const aggregateByDate = (records: iChartRecord[]) => {
+        const dateMap = new Map<string, { total: number; categories: string[]; originalDate: string }>();
 
         records.forEach((record) => {
             // Parse the date string properly and extract just the date part (YYYY-MM-DD)
@@ -61,7 +52,7 @@ const BarChart = ({ records }: { records: Record[] }) => {
                 dateMap.set(dateKey, {
                     total: record.amount,
                     categories: [record.category],
-                    originalDate: record.date, // Keep original ISO date for sorting
+                    originalDate: record.date // Keep original ISO date for sorting
                 });
             }
         });
@@ -74,11 +65,7 @@ const BarChart = ({ records }: { records: Record[] }) => {
                 categories: data.categories,
                 originalDate: data.originalDate
             }))
-            .sort(
-                (a, b) =>
-                    new Date(a.originalDate).getTime() -
-                    new Date(b.originalDate).getTime()
-            );
+            .sort((a, b) => new Date(a.originalDate).getTime() - new Date(b.originalDate).getTime());
     };
 
     const aggregatedData = aggregateByDate(records);
@@ -88,21 +75,21 @@ const BarChart = ({ records }: { records: Record[] }) => {
         if (amount > 200)
             return {
                 bg: isDark ? 'rgba(255, 99, 132, 0.3)' : 'rgba(255, 99, 132, 0.2)',
-                border: isDark ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 99, 132, 1)',
+                border: isDark ? 'rgba(255, 99, 132, 0.8)' : 'rgba(255, 99, 132, 1)'
             }; // Red for high spending
         if (amount > 100)
             return {
                 bg: isDark ? 'rgba(255, 206, 86, 0.3)' : 'rgba(255, 206, 86, 0.2)',
-                border: isDark ? 'rgba(255, 206, 86, 0.8)' : 'rgba(255, 206, 86, 1)',
+                border: isDark ? 'rgba(255, 206, 86, 0.8)' : 'rgba(255, 206, 86, 1)'
             }; // Yellow for medium spending
         if (amount > 50)
             return {
                 bg: isDark ? 'rgba(54, 162, 235, 0.3)' : 'rgba(54, 162, 235, 0.2)',
-                border: isDark ? 'rgba(54, 162, 235, 0.8)' : 'rgba(54, 162, 235, 1)',
+                border: isDark ? 'rgba(54, 162, 235, 0.8)' : 'rgba(54, 162, 235, 1)'
             }; // Blue for moderate spending
         return {
             bg: isDark ? 'rgba(75, 192, 192, 0.3)' : 'rgba(75, 192, 192, 0.2)',
-            border: isDark ? 'rgba(75, 192, 192, 0.8)' : 'rgba(75, 192, 192, 1)',
+            border: isDark ? 'rgba(75, 192, 192, 0.8)' : 'rgba(75, 192, 192, 1)'
         }; // Green for low spending
     };
 
@@ -116,12 +103,8 @@ const BarChart = ({ records }: { records: Record[] }) => {
         datasets: [
             {
                 data: aggregatedData.map((item) => item.amount),
-                backgroundColor: aggregatedData.map(
-                    (item) => getAmountColor(item.amount).bg
-                ),
-                borderColor: aggregatedData.map(
-                    (item) => getAmountColor(item.amount).border
-                ),
+                backgroundColor: aggregatedData.map((item) => getAmountColor(item.amount).bg),
+                borderColor: aggregatedData.map((item) => getAmountColor(item.amount).border),
                 borderWidth: 1,
                 borderRadius: 2 // Rounded bar edges
             }
@@ -133,15 +116,13 @@ const BarChart = ({ records }: { records: Record[] }) => {
         maintainAspectRatio: false, // Allow flexible height
         plugins: {
             legend: {
-                display: false, // Remove legend
+                display: false // Remove legend
             },
             title: {
-                display: false, // Remove chart title
+                display: false // Remove chart title
             },
             tooltip: {
-                backgroundColor: isDark
-                    ? 'rgba(31, 41, 55, 0.95)'
-                    : 'rgba(255, 255, 255, 0.95)',
+                backgroundColor: isDark ? 'rgba(31, 41, 55, 0.95)' : 'rgba(255, 255, 255, 0.95)',
                 titleColor: isDark ? '#f9fafb' : '#1f2937',
                 bodyColor: isDark ? '#d1d5db' : '#374151',
                 borderColor: isDark ? '#374151' : '#e5e7eb',
@@ -152,9 +133,7 @@ const BarChart = ({ records }: { records: Record[] }) => {
                         const dataIndex = context.dataIndex;
                         const item = aggregatedData[dataIndex];
                         const categoriesText =
-                            item.categories.length > 1
-                                ? `Categories: ${item.categories.join(', ')}`
-                                : `Category: ${item.categories[0]}`;
+                            item.categories.length > 1 ? `Categories: ${item.categories.join(', ')}` : `Category: ${item.categories[0]}`;
                         return [`Total: $${item.amount.toFixed(2)}`, categoriesText];
                     }
                 }
@@ -180,7 +159,7 @@ const BarChart = ({ records }: { records: Record[] }) => {
                     minRotation: isMobile ? 45 : 0
                 },
                 grid: {
-                    display: false,// Hide x-axis grid lines
+                    display: false // Hide x-axis grid lines
                 }
             },
             y: {

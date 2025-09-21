@@ -8,6 +8,7 @@ import { currentUser } from '@clerk/nextjs/server';
 
 export default async function HomePage() {
   const user = await currentUser();
+  
   if (!user) {
     return <Guest />;
   }
@@ -70,9 +71,7 @@ export default async function HomePage() {
                         Last Active
                       </span>
                       <span className='text-sm font-semibold text-gray-800 dark:text-gray-200'>
-                        {user.lastActiveAt
-                          ? new Date(user.lastActiveAt).toLocaleDateString()
-                          : 'Today'}
+                        {user.lastActiveAt ? new Date(user.lastActiveAt).toLocaleDateString() : 'Today'}
                       </span>
                     </div>
                   </div>

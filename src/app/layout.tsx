@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Rupik AI - Smart Financial Management',
-  description: 'AI powered expense tracker that organizes spending, delivers instant insights, and keeps your finances on track.',
+  description: 'AI powered expense tracker that organizes spending, delivers instant insights, and keeps your finances on track.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -39,9 +39,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300`}>
         <ThemeProvider>
           <ClerkThemeProvider>
             <Navbar />
